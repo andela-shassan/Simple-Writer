@@ -1,24 +1,28 @@
 package checkpoint.andela.log;
 
+import checkpoint.andela.parser.Completed;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
-import checkpoint.andela.parser.Completed;
+/**
+ * Created by Semiu on 19/01/2016.
+ */
 
 public class LogWriter extends LogManager implements Runnable{
-  private static BlockingQueue<String>  buffer = LogBuffer.getLogBuffer();
+  private static BlockingQueue<String> buffer = LogBuffer.getLogBuffer();
   private BufferedWriter bufferedWriter;
   private String logFilePath;
 
-  
+
   public LogWriter(String logFilePath) {
     this.logFilePath = logFilePath;
   }
 
-  
+
   @Override
   public void run() {
     try {
@@ -29,8 +33,8 @@ public class LogWriter extends LogManager implements Runnable{
       e.printStackTrace();
     }
   }
-  
-  
+
+
   public void writeToFile() throws InterruptedException, IOException{
     File file = new File(logFilePath);
     if(!file.exists()){
@@ -38,12 +42,12 @@ public class LogWriter extends LogManager implements Runnable{
     }
     bufferedWriter = new BufferedWriter(new FileWriter(file));
     while(!buffer.isEmpty() || !Completed.INSTANCE.getComplete()){
-    bufferedWriter.write(getLog());
-    bufferedWriter.newLine();
-    bufferedWriter.flush();}
+      bufferedWriter.write(getLog());
+      bufferedWriter.newLine();
+      bufferedWriter.flush();}
   }
-  
-  
+
+
   private String getLog() throws InterruptedException{
     return  buffer.take();
   }

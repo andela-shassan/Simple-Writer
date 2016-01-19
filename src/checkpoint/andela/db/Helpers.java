@@ -1,18 +1,16 @@
 package checkpoint.andela.db;
 
-public  class Helpers {
-  
-  static final String DRIVER = "com.mysql.jdbc.Driver";  
+/**
+ * Created by Semiu on 19/01/2016.
+ */
+public class Helpers {
+  static final String DRIVER = "com.mysql.jdbc.Driver";
   static final String DB_URL = "jdbc:mysql://localhost:3306/";
 
   static final String USER = "root";
   static final String PASS = "Nobest@86";
-  
-  public Helpers() {
-    
-  }
-  
-  
+
+
   public static String[] attribute = {
       "UNIQUE-ID",
       "TYPES",
@@ -58,5 +56,4 @@ public  class Helpers {
       "^COEFFICIENT",
       "^COMPARTMENT"
   };
-  
 }

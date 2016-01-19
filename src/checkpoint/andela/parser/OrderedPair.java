@@ -1,5 +1,8 @@
 package checkpoint.andela.parser;
 
+/**
+ * Created by Semiu on 19/01/2016.
+ */
 public class OrderedPair {
   private String attribute = "";
   private String value = "";

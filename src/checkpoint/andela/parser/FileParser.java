@@ -1,22 +1,21 @@
 package checkpoint.andela.parser;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.concurrent.BlockingQueue;
-
 import checkpoint.andela.log.LogManager;
 
+import java.io.*;
+import java.util.concurrent.BlockingQueue;
+
+/**
+ * Created by Semiu on 19/01/2016.
+ */
 public class FileParser implements Runnable {
-  
   private BufferedReader bufferedReader;
   private BlockingQueue<Record> records;
   LogManager logManager = new LogManager();
-  
 
   public FileParser(){}
 
-  
+
   public FileParser(BlockingQueue<Record> records, String filePath) throws Exception {
     bufferedReader = new BufferedReader(new FileReader(new File(filePath)));
     this.records = records;
@@ -25,7 +24,7 @@ public class FileParser implements Runnable {
 
   @Override
   public void run() {
-    writeToBuffer(); 
+    writeToBuffer();
   }
 
 
@@ -46,13 +45,13 @@ public class FileParser implements Runnable {
         if(line.length() > 2){
           OrderedPair pair = new OrderedPair();
           processLine(aRecord, line, pair);
-        }         
+        }
       }
       Completed.INSTANCE.setCompleted(true);
     }
     catch (Exception e){
       e.printStackTrace();
-    } 
+    }
   }
 
 
@@ -66,11 +65,11 @@ public class FileParser implements Runnable {
   boolean isComment(String line){
     if(line.startsWith("#")){
       return true;
+    }
+    return false;
   }
-  return false;
-  }
-  
-  
+
+
   boolean isDelimiter(String line){
     if(line.startsWith("//")){
       return true;

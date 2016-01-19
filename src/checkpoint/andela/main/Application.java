@@ -1,51 +1,70 @@
 package checkpoint.andela.main;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
 import checkpoint.andela.db.DBWriter;
 import checkpoint.andela.log.LogWriter;
-import checkpoint.andela.parser.FileParser;
-import checkpoint.andela.parser.Record;
+import checkpoint.andela.parser.*;
+
+import java.util.concurrent.*;
+
+/**
+ * Created by Semiu on 19/01/2016.
+ */
 
 public class Application {
-  static BlockingQueue<Record> record;
+  private String logFilePath;
+  private String reactantFilePath;
+  public static BlockingQueue<Record> record = new ArrayBlockingQueue<Record>(1);
   private static Future nextTask = null;
- 
 
-  
-  public Application() throws Exception {
-    record = new ArrayBlockingQueue<Record>(1);
+  Runnable fileParserThread;
+  Runnable dbWriterThread;
+  Runnable logWriterThread;
+
+
+
+
+  public Application(String reactantFilePath, String logFilePath) throws Exception {
+    setReactantFilePath(reactantFilePath);
+    setLogFilePath(logFilePath);
   }
 
-  
-  private void process() throws Exception {
+
+  public Application() {}
+
+
+  protected void process() throws Exception {
     ExecutorService executor = Executors.newFixedThreadPool(5);
-    Runnable fileParserThread = new FileParser(record,"C:\\Users\\Semiu\\Documents\\myWorkspace\\Simple-Writer\\Files\\reactions.dat");
-    Runnable dbWriter = new DBWriter(record);
-    Runnable logWriter = new LogWriter("C:\\Users\\Semiu\\Documents\\myWorkspace\\Simple-Writer\\Files\\logFile.txt");
-    
+    fileParserThread = new FileParser(record, reactantFilePath);
+    dbWriterThread = new DBWriter(record);
+    logWriterThread = new LogWriter(logFilePath);
+
     executor.submit(fileParserThread);
-    executor.submit(dbWriter);
-    executor.submit(logWriter);
-    
+    executor.submit(dbWriterThread);
+    executor.submit(logWriterThread);
+
     if(nextTask == null){
-      executor.awaitTermination(2, TimeUnit.SECONDS);
+      executor.awaitTermination(60, TimeUnit.SECONDS);
       executor.shutdown();
-    }    
-    
+    }
   }
 
-  
-  public static void main(String[] args) throws Exception {          
-    Application app = new Application(); 
-    app.process();  
+
+  public String getLogFilePath() {
+    return logFilePath;
+  }
+
+
+  public void setLogFilePath(String logFilePath) {
+    this.logFilePath = logFilePath;
+  }
+
+
+  public String getReactantFilePath() {
+    return reactantFilePath;
+  }
+
+
+  public void setReactantFilePath(String reactantFilePath) {
+    this.reactantFilePath = reactantFilePath;
   }
 }
-
-
-

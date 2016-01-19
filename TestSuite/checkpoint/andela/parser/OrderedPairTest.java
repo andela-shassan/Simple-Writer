@@ -1,17 +1,21 @@
 package checkpoint.andela.parser;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+/**
+ * Created by Semiu on 19/01/2016.
+ */
 
 public class OrderedPairTest {
 
-    String first = "UNIQUE-ID - PHENYLALANINE--TRNA-LIGASE-RXN";
-    String second = "TYPES - tRNA-Charging-Reactions";
-    String third = "ATOM-MAPPINGS - :UNBALANCED";
-    String fourth = "CREDITS - SRI";
-    String fifth = "LEFT - PROTON";
-    
+  String first = "UNIQUE-ID - PHENYLALANINE--TRNA-LIGASE-RXN";
+  String second = "TYPES - tRNA-Charging-Reactions";
+  String third = "ATOM-MAPPINGS - :UNBALANCED";
+  String fourth = "CREDITS - SRI";
+  String fifth = "LEFT - PROTON";
+
 
 
   @Test
@@ -22,7 +26,7 @@ public class OrderedPairTest {
     assertEquals(pair.getAttribute(), "TYPES");
   }
 
-  
+
   @Test
   public void testGetValue() {
     OrderedPair pair = new OrderedPair();
@@ -31,7 +35,7 @@ public class OrderedPairTest {
     assertEquals(pair.getValue(), "tRNA-Charging-Reactions");
   }
 
-  
+
   @Test
   public void testGetPair() {
     OrderedPair pair = new OrderedPair();
