@@ -58,4 +58,4 @@ Application app = new Application();
     app.setReactantFilePath("path to reactant file");
 ```  
 
-By calling the process method `app.process();` on the app, it automatically saves the given data to the database and generates the log file at the same time.
+By calling the process method `app.process();` on the app, it automatically saves the given data to the database and generates the log file at the same time.  
