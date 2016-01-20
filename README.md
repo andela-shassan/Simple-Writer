@@ -31,9 +31,31 @@ These two classes handles the operations related to the database. Combined, they
 Helper class serves as a data keeper for the database related process. It holds the credentials for connecting to the database.  
 
 ### LogManager and LogBuffer classes  
-The LogManager class handles the creation and formatting of the log message into the appropriate style. It has methods such as `formatDate()` which formats the current date into specified string format. The `destination()` and `getAction()` methods that also helps to formar the log text. The formatted text is saved into `LogBuffer` which serves as the temporary storage for the log message.  
+The LogManager class handles the creation and formatting of the log message into the appropriate style. It has methods such as `formatDate()` which formats the current date into specified string format. The `destination()` and `getAction()` methods that also helps to format the log text. The formatted text is saved into `LogBuffer` which serves as the temporary storage for the log message.  
 
 ### LogWriter  
 This class also implements Runnable. It is saddled with the responsibility of writing the log message into a file.
-It takes the text from the `LogBuffer` and write it into the specifiied file. If the file is not available in the specified location, it creates a new file with the given name.
- 
+It takes the text from the `LogBuffer` and write it into the specifiied file. If the file is not available in the specified location, it creates a new file with the given name.  
+
+
+## Application Requirements and Running Instruction  
+To run this application, `java sdk` must be installed on the system together with `MySql` database.  
+Also, the credentials `(user & password)` located in the helper class must be changed accordingly in other for the app to access the database.  
+
+**Application** is the entry point to this program. It takes two arguments: the reactant file path and the path for the log file. 
+```java
+public Application(String reactantFilePath, String logFilePath) throws Exception {
+    setReactantFilePath(reactantFilePath);
+    setLogFilePath(logFilePath);
+  }
+```  
+
+User also has the options to instantiate the application with no argument but must then use `setter()` to set the path to the `reactant` and `log` files as illustrated below.  
+
+```java
+Application app = new Application();
+    app.setLogFilePath("path to log file");
+    app.setReactantFilePath("path to reactant file");
+```  
+
+By calling the process method `app.process();` on the app, it automatically saves the given data to the database and generates the log file at the same time.  
