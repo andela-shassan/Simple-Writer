@@ -29,7 +29,6 @@ public class FileParserTest {
     assertTrue(fileParserThread.isAlive());
   }
 
-
   @Test
   public void testIsComment(){
     FileParser fp = new FileParser();
@@ -41,7 +40,6 @@ public class FileParserTest {
     assertFalse(fp.isComment(string3));
   }
 
-
   @Test
   public void testIsDelimiter(){
     FileParser fp = new FileParser();
@@ -52,7 +50,6 @@ public class FileParserTest {
     assertFalse(fp.isDelimiter(string2));
     assertTrue(fp.isDelimiter(string3));
   }
-
 
   @Test
   public void testProcessLine() {
@@ -72,7 +69,5 @@ public class FileParserTest {
     assertEquals(pair1.getAttribute(), "ENZYMATIC-REACTION");
     assertEquals(pair1.getValue(), "ENZRXNMT2-1088");
     assertEquals(record.recordSize(), 2);
-
   }
-
 }

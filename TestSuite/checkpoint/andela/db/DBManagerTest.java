@@ -44,7 +44,7 @@ public class DBManagerTest {
     dbm.createDatabase("dbmanagertest");
     dbm.createTable("dbmanagertest", "dbtabletest", columns );
     assertTrue(dbm.databaseExists("dbmanagertest"));
-    dbm.deleteTable("dbmanagertest", "dbtabletest");
+    //dbm.deleteTable("dbmanagertest", "dbtabletest");
 
   }
 

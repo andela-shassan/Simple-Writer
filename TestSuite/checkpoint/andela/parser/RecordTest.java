@@ -35,7 +35,6 @@ public class RecordTest {
     assertEquals(record.recordSize(), 2);
   }
 
-
   @Test
   public void testGetUniqueID() {
     OrderedPair pair2 = new OrderedPair();
@@ -60,5 +59,4 @@ public class RecordTest {
 
     assertEquals(record.getUniqueID(), "PHENYLALANINE--TRNA-LIGASE-RXN");
   }
-
 }

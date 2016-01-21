@@ -5,19 +5,17 @@ import java.sql.*;
 /**
  * Created by Semiu on 19/01/2016.
  */
+
 public class DBManager {
   private static Connection connection;
   private Statement statement;
 
-
   public DBManager() {}
-
 
   public Connection getConnection() {
     try{
-      Class.forName(Helpers.DRIVER);
-      connection = DriverManager.getConnection(Helpers.DB_URL, Helpers.USER, Helpers.PASS);
-
+      Class.forName(Helpers.DRIVER.toString());
+      connection = DriverManager.getConnection(Helpers.DB_URL.toString(), Helpers.USER.toString(), Helpers.PASS.toString());
     }catch(SQLException se){
       se.printStackTrace();
     }catch(Exception e){
@@ -25,8 +23,6 @@ public class DBManager {
     }
     return connection;
   }
-
-
 
   public void createDatabase(String DBName ){
     if(databaseExists(DBName)) {
@@ -43,9 +39,7 @@ public class DBManager {
     catch(Exception e){
       e.printStackTrace();
     }
-
   }
-
 
   public void createTable(String DBName, String tableName, String... tableColumns) throws SQLException {
 
@@ -59,7 +53,6 @@ public class DBManager {
     execute(table);
   }
 
-
   public  void execute(String table) {
     try {
       statement = connection.createStatement();
@@ -70,12 +63,10 @@ public class DBManager {
     }
   }
 
-
   public void deleteTable(String DBName, String tableName){
     String deleteTable = "DROP TABLE IF EXISTS "+ DBName + "." + tableName;
     execute(deleteTable);
   }
-
 
   public boolean databaseExists(String DBName){
     try{
@@ -93,7 +84,6 @@ public class DBManager {
     return false;
   }
 
-
   public void deleteDatabase(String DBName){
     if(!databaseExists(DBName)){
       return;
@@ -102,7 +92,6 @@ public class DBManager {
     execute(deleteDB);
     System.out.println("Database deleted successfully! ");
   }
-
 
   public void closeConnection() {
     try{

@@ -20,17 +20,12 @@ public class Application {
   Runnable dbWriterThread;
   Runnable logWriterThread;
 
-
-
-
   public Application(String reactantFilePath, String logFilePath) throws Exception {
     setReactantFilePath(reactantFilePath);
     setLogFilePath(logFilePath);
   }
 
-
   public Application() {}
-
 
   protected void process() throws Exception {
     ExecutorService executor = Executors.newFixedThreadPool(5);
@@ -48,21 +43,17 @@ public class Application {
     }
   }
 
-
   public String getLogFilePath() {
     return logFilePath;
   }
-
 
   public void setLogFilePath(String logFilePath) {
     this.logFilePath = logFilePath;
   }
 
-
   public String getReactantFilePath() {
     return reactantFilePath;
   }
-
 
   public void setReactantFilePath(String reactantFilePath) {
     this.reactantFilePath = reactantFilePath;
