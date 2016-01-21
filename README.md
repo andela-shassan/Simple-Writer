@@ -6,7 +6,7 @@ Simple-Writer is a multithreaded application designed to parse a `reactant.dat` 
 ### Classes and features of the application.  
 
 #### Application Class
-This class serves as the entry point to the application. It implements all the other Runnable classes as a thread and controls, starts and stop the activity of the threads.  
+This class serves as the entry point to the application. It implements all the other Runnable classes as a thread and controls, starts and stops the activity of the threads.  
 It has a single method  
 
 ```java  
