@@ -15,18 +15,15 @@ public class FileParser implements Runnable {
 
   public FileParser(){}
 
-
   public FileParser(BlockingQueue<Record> records, String filePath) throws Exception {
     bufferedReader = new BufferedReader(new FileReader(new File(filePath)));
     this.records = records;
   }
 
-
   @Override
   public void run() {
     writeToBuffer();
   }
-
 
   private void writeToBuffer() {
     try{
@@ -54,13 +51,11 @@ public class FileParser implements Runnable {
     }
   }
 
-
   protected void processLine(Record aRecord, String line, OrderedPair pair) {
     pair.setAttribute(line.substring(0, line.indexOf(" ")));
     pair.setValue(line.substring((line.indexOf(" ") + 3)));
     aRecord.addPair(pair);
   }
-
 
   boolean isComment(String line){
     if(line.startsWith("#")){
@@ -68,7 +63,6 @@ public class FileParser implements Runnable {
     }
     return false;
   }
-
 
   boolean isDelimiter(String line){
     if(line.startsWith("//")){
