@@ -18,31 +18,26 @@ public class DBWriter extends DBManager implements Runnable {
   private BlockingQueue<Record> records;
   LogManager logManager = new LogManager();
 
-
   public DBWriter(BlockingQueue<Record> records ) {
     this.records = records;
   }
-
 
   @Override
   public void run() {
     try {
       createDatabase("reactiondb");
-      createTable("reactiondb", "reactions", Helpers.attribute);
+      createTable("reactiondb", "reactions", attribute);
       writeToDB();
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
   }
-
 
   public Record getRecord() throws InterruptedException {
     return records.take();
   }
-
 
   public void writeToDB() throws InterruptedException, SQLException {
     while(!records.isEmpty() || !Completed.INSTANCE.getComplete()){
@@ -51,7 +46,6 @@ public class DBWriter extends DBManager implements Runnable {
       executePreparedStatement(record);
     }
   }
-
 
   public void executePreparedStatement(Record record) throws SQLException {
     Connection conn = null;
@@ -66,11 +60,8 @@ public class DBWriter extends DBManager implements Runnable {
     }
   }
 
-
-
   private String createQueryString(Record record) {
     String field ="", value ="";
-
     Hashtable<String, String> rec = record.getARecord();
     for (String key : rec.keySet()) {
       field += "`" + key +"`, ";
@@ -81,4 +72,50 @@ public class DBWriter extends DBManager implements Runnable {
     String insertRecord = "INSERT INTO reactiondb.reactions (" + field + " )" + " VALUES (" + value + " )";
     return insertRecord;
   }
+
+  String[] attribute = {
+      "UNIQUE-ID",
+      "TYPES",
+      "COMMON-NAME",
+      "ATOM-MAPPINGS",
+      "CANNOT-BALANCE?",
+      "CITATIONS",
+      "COMMENT",
+      "COMMENT-INTERNAL",
+      "CREDITS",
+      "DATA-SOURCE",
+      "DBLINKS",
+      "DELTAG0",
+      "DOCUMENTATION",
+      "EC-NUMBER",
+      "ENZYMATIC-REACTION",
+      "ENZYMES-NOT-USED",
+      "EQUILIBRIUM-CONSTANT",
+      "HIDE-SLOT?",
+      "IN-PATHWAY",
+      "INSTANCE-NAME-TEMPLATE",
+      "LEFT",
+      "MEMBER-SORT-FN",
+      "ORPHAN?",
+      "PATHOLOGIC-NAME-MATCHER-EVIDENCE",
+      "PATHOLOGIC-PWY-EVIDENCE",
+      "PHYSIOLOGICALLY-RELEVANT?",
+      "PREDECESSORS",
+      "PRIMARIES",
+      "REACTION-DIRECTION",
+      "REACTION-LIST",
+      "REGULATED-BY",
+      "REQUIREMENTS",
+      "RIGHT",
+      "RXN-LOCATIONS",
+      "SIGNAL",
+      "SPECIES",
+      "SPONTANEOUS?",
+      "STD-REDUCTION-POTENTIAL",
+      "SYNONYMS",
+      "SYSTEMATIC-NAME",
+      "TEMPLATE-FILE",
+      "^COEFFICIENT",
+      "^COMPARTMENT"
+  };
 }

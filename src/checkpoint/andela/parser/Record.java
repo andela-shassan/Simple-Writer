@@ -13,21 +13,17 @@ public class Record {
     record = new Hashtable<String, String>();
   }
 
-
   public void addPair(OrderedPair pair) {
     record.put(pair.getAttribute(), pair.getValue());
   }
-
 
   public int recordSize(){
     return record.size();
   }
 
-
   public Hashtable<String, String> getARecord(){
     return record;
   }
-
 
   public String getUniqueID(){
     return record.get("UNIQUE-ID");

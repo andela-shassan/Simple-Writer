@@ -1,12 +1,12 @@
 # Simple-Writer
 
 ## About
-Simple-Writer is a multithreaded application designed to parse a `reactant.dat` file. The file contains records of different reactants. Each reaactant has different attribute-value pairs. The end result of this application is that it read the document, parse it into buffer and saves it to the database while generating the logfile that records the activity of each thread at the same time  
+Simple-Writer is a multithreaded application designed to parse a `reactant.dat` file. The file contains records of different reactants. Each reactant has different attribute-value pairs. The end result of this application is that it reads the document, parses it into buffer and saves it to the database while generating the logfile that records the activity of each thread at the same time.  
 
 ### Classes and features of the application.  
 
 #### Application Class
-This class serves as the entry point to the application. It implements all the other Runnable classes as a thread and controls the start and stop the activity of the threads.  
+This class serves as the entry point to the application. It implements all the other Runnable classes as a thread and controls, starts and stops the activity of the threads.  
 It has a single method  
 
 ```java  
@@ -27,7 +27,7 @@ These are the datatypes that were used in the application. The OrderedPair class
 This is a singleton class that serves just one purpose which is avoiding an infinite loops. It tells the `dbWriter()` when the `FileParser` is done reading the file.  
 
 ### DBManager and DBWriter classes  
-These two classes handles the operations related to the database. Combined, they have methods to create a database, database table and also insert to insert into the database.  
+These two classes handle the operations related to the database. Combined, they have methods to create a database, database table and also insert to insert into the database.  
 Helper class serves as a data keeper for the database related process. It holds the credentials for connecting to the database.  
 
 ### LogManager and LogBuffer classes  
@@ -35,7 +35,7 @@ The LogManager class handles the creation and formatting of the log message into
 
 ### LogWriter  
 This class also implements Runnable. It is saddled with the responsibility of writing the log message into a file.
-It takes the text from the `LogBuffer` and write it into the specifiied file. If the file is not available in the specified location, it creates a new file with the given name.  
+It takes the text from the `LogBuffer` and write it into the specified file. If the file is not available in the specified location, it creates a new file with the given name.  
 
 
 ## Application Requirements and Running Instruction  
@@ -58,4 +58,4 @@ Application app = new Application();
     app.setReactantFilePath("path to reactant file");
 ```  
 
-By calling the process method `app.process();` on the app, it automatically saves the given data to the database and generates the log file at the same time.  
+By calling the process method `app.process();` on the app, it automatically saves the given data to the database and generates the log file at the same time.

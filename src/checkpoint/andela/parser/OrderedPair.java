@@ -7,8 +7,6 @@ public class OrderedPair {
   private String attribute = "";
   private String value = "";
 
-
-
   public OrderedPair() {}
 
   public OrderedPair(String attribute, String value) {
