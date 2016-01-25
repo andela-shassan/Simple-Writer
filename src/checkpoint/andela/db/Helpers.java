@@ -7,7 +7,9 @@ public enum Helpers {
   DRIVER("com.mysql.jdbc.Driver"),
   DB_URL("jdbc:mysql://localhost:3306/"),
   USER("root"),
-  PASS("Nobest@86");
+  PASS("Nobest@86"),
+  DB_NAME("reactiondb"),
+  TABLE_NAME("reactions");
 
   private String property;
 
