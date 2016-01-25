@@ -1,8 +1,9 @@
 package checkpoint.andela.db;
 
+import checkpoint.andela.buffer.Buffers;
 import checkpoint.andela.log.LogManager;
-import checkpoint.andela.parser.Completed;
-import checkpoint.andela.parser.Record;
+import checkpoint.andela.parser.FileParserObserver;
+import checkpoint.andela.parser.Reactant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,18 +16,16 @@ import java.util.concurrent.BlockingQueue;
  */
 
 public class DBWriter extends DBManager implements Runnable {
-  private BlockingQueue<Record> records;
+  private BlockingQueue<Reactant> reactants = Buffers.getFileBuffer();
   LogManager logManager = new LogManager();
 
-  public DBWriter(BlockingQueue<Record> records ) {
-    this.records = records;
-  }
+  public DBWriter() {}
 
   @Override
   public void run() {
     try {
-      createDatabase("reactiondb");
-      createTable("reactiondb", "reactions", attribute);
+      createDatabase(Helpers.DB_NAME.toString());
+      createTable(Helpers.DB_NAME.toString(), Helpers.TABLE_NAME.toString(), attribute);
       writeToDB();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -35,22 +34,22 @@ public class DBWriter extends DBManager implements Runnable {
     }
   }
 
-  public Record getRecord() throws InterruptedException {
-    return records.take();
+  public Reactant getRecord() throws InterruptedException {
+      return reactants.take();
   }
 
   public void writeToDB() throws InterruptedException, SQLException {
-    while(!records.isEmpty() || !Completed.INSTANCE.getComplete()){
-      Record record = getRecord();
-      logManager.writeLog("DBWriter", record.getUniqueID());
-      executePreparedStatement(record);
+    while(!reactants.isEmpty() || FileParserObserver.INSTANCE.getFileParserStatus()){
+      Reactant reactant = getRecord();
+      logManager.writeLog("DBWriter", reactant.getUniqueID());
+      executePreparedStatement(reactant);
     }
   }
 
-  public void executePreparedStatement(Record record) throws SQLException {
+  public void executePreparedStatement(Reactant reactant) throws SQLException {
     Connection conn = null;
     PreparedStatement preparedStatement = null;
-    String insertRecord = createQueryString(record);
+    String insertRecord = createQueryString(reactant);
     try {
       conn = getConnection();
       preparedStatement = conn.prepareStatement(insertRecord);
@@ -60,16 +59,16 @@ public class DBWriter extends DBManager implements Runnable {
     }
   }
 
-  private String createQueryString(Record record) {
+  private String createQueryString(Reactant reactant) {
     String field ="", value ="";
-    Hashtable<String, String> rec = record.getARecord();
+    Hashtable<String, String> rec = reactant.getARecord();
     for (String key : rec.keySet()) {
       field += "`" + key +"`, ";
       value += "'" + rec.get(key) +"', ";
     }
     field = field.substring(0, field.length()-2);
     value = value.substring(0, value.length()-2);
-    String insertRecord = "INSERT INTO reactiondb.reactions (" + field + " )" + " VALUES (" + value + " )";
+    String insertRecord = "INSERT INTO "+ Helpers.DB_NAME.toString() + "." + Helpers.TABLE_NAME.toString() + "(" + field + " )" + " VALUES (" + value + " )";
     return insertRecord;
   }
 

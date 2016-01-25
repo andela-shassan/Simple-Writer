@@ -53,7 +53,7 @@ public class DBManager {
     execute(table);
   }
 
-  public  void execute(String table) {
+  public void execute(String table) {
     try {
       statement = connection.createStatement();
       statement.executeUpdate(table);

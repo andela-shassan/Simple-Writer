@@ -1,6 +1,7 @@
 package checkpoint.andela.log;
 
-import checkpoint.andela.parser.Completed;
+import checkpoint.andela.buffer.Buffers;
+import checkpoint.andela.parser.FileParserObserver;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,7 +14,7 @@ import java.util.concurrent.BlockingQueue;
  */
 
 public class LogWriter extends LogManager implements Runnable{
-  private static BlockingQueue<String> buffer = LogBuffer.getLogBuffer();
+  private static BlockingQueue<String> buffer = Buffers.getLogBuffer();
   private BufferedWriter bufferedWriter;
   private String logFilePath;
 
@@ -38,7 +39,7 @@ public class LogWriter extends LogManager implements Runnable{
       file.createNewFile();
     }
     bufferedWriter = new BufferedWriter(new FileWriter(file));
-    while(!buffer.isEmpty() || !Completed.INSTANCE.getComplete()) {
+    while(!buffer.isEmpty() || FileParserObserver.INSTANCE.getFileParserStatus()) {
       bufferedWriter.write(getLog());
       bufferedWriter.newLine();
       bufferedWriter.flush();
