@@ -13,7 +13,6 @@ import java.util.concurrent.*;
 public class Application {
   private String logFilePath;
   private String reactantFilePath;
-  public static BlockingQueue<Record> record = new ArrayBlockingQueue<Record>(1);
   private static Future nextTask = null;
 
   Runnable fileParserThread;
@@ -29,8 +28,8 @@ public class Application {
 
   protected void process() throws Exception {
     ExecutorService executor = Executors.newFixedThreadPool(5);
-    fileParserThread = new FileParser(record, reactantFilePath);
-    dbWriterThread = new DBWriter(record);
+    fileParserThread = new FileParser(reactantFilePath);
+    dbWriterThread = new DBWriter();
     logWriterThread = new LogWriter(logFilePath);
 
     executor.submit(fileParserThread);

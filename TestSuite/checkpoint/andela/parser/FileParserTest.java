@@ -3,9 +3,6 @@ package checkpoint.andela.parser;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
 import static org.junit.Assert.*;
 
 /**
@@ -13,7 +10,6 @@ import static org.junit.Assert.*;
  */
 
 public class FileParserTest {
-  private BlockingQueue<Record> testRecord = new ArrayBlockingQueue<Record>(10);
   private String filePath;
 
   @Before
@@ -23,7 +19,7 @@ public class FileParserTest {
 
   @Test
   public void testFileParser() throws Exception {
-    Thread fileParserThread = new Thread(new FileParser(testRecord, filePath));
+    Thread fileParserThread = new Thread(new FileParser(filePath));
     fileParserThread.start();
 
     assertTrue(fileParserThread.isAlive());
@@ -54,20 +50,20 @@ public class FileParserTest {
   @Test
   public void testProcessLine() {
     FileParser fp = new FileParser();
-    Record record = new Record();
+    Reactant reactant = new Reactant();
     String line1 = "ENZYMATIC-REACTION - ENZRXNMT2-1088";
     String line2 = "LEFT - CPD-8978";
     OrderedPair pair1 = new OrderedPair();
     OrderedPair pair2 = new OrderedPair();
 
-    fp.processLine(record, line2, pair2);
+    fp.processLine(reactant, line2, pair2);
     assertEquals(pair2.getAttribute(), "LEFT");
     assertEquals(pair2.getValue(), "CPD-8978");
-    assertEquals(record.recordSize(), 1);
+    assertEquals(reactant.reactantSize(), 1);
 
-    fp.processLine(record, line1, pair1);
+    fp.processLine(reactant, line1, pair1);
     assertEquals(pair1.getAttribute(), "ENZYMATIC-REACTION");
     assertEquals(pair1.getValue(), "ENZRXNMT2-1088");
-    assertEquals(record.recordSize(), 2);
+    assertEquals(reactant.reactantSize(), 2);
   }
 }

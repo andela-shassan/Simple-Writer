@@ -1,5 +1,7 @@
 package checkpoint.andela.log;
 
+import checkpoint.andela.buffer.Buffers;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.BlockingQueue;
@@ -9,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
  */
 
 public class LogManager {
-  private BlockingQueue<String> buffer = LogBuffer.getLogBuffer();
+  private BlockingQueue<String> buffer = Buffers.getLogBuffer();
 
   public LogManager() {}
 
